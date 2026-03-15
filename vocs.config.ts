@@ -4,6 +4,7 @@ export default defineConfig({
   title: 'Learn Ethereum',
   titleTemplate: '%s — Learn Ethereum',
   description: 'An educational resource covering Ethereum\'s real-world use cases, starting with payments infrastructure and stablecoins.',
+  aiCta: false,
   basePath: '/eth',
   iconUrl: '/favicon.svg',
   theme: {
