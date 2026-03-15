@@ -1,0 +1,53 @@
+# Microtransactions
+
+A credit card transaction has a floor cost. Between interchange fees, processor fees, and network fees, the minimum viable transaction on card rails is roughly $0.30-0.50. Anything below that costs more to process than it's worth. This is why you can't pay $0.002 to read a single article, $0.0001 to call an API endpoint, or $0.05 to tip a street musician through their phone.
+
+The constraint isn't technological preference. It's economics. Traditional payment rails were designed for purchases measured in dollars, not fractions of a cent.
+
+## L2 Economics Change the Math
+
+On Ethereum L2 networks, transaction fees are consistently below $0.01 — often below $0.001. Base, Arbitrum, and Optimism process transfers for fractions of a cent. This makes a $0.001 payment economically rational. The fee to send it is smaller than the payment itself.
+
+This doesn't just make existing small payments cheaper. It makes an entirely new category of payment possible — transactions that couldn't exist on any previous rail.
+
+## API Monetization
+
+Most APIs are monetized through subscription tiers. A developer pays $29/month for up to 10,000 calls, $99/month for 100,000, and so on. This model works but creates misalignment: low-volume users overpay for access they barely use, and providers must manage billing tiers, overage calculations, and subscription lifecycle.
+
+Pay-per-call pricing is more precise. An API provider charges $0.001 per request, and the developer pays exactly for what they consume. Stablecoin micropayments make this viable without a billing intermediary. The developer deposits stablecoins into a payment channel or smart contract, and each API call deducts the fee in real time.
+
+Bandwidth marketplaces, compute-on-demand services, and data feeds are natural fits. A machine learning model hosted behind an API can charge per inference — $0.003 for a text completion, $0.02 for an image generation — with settlement happening onchain.
+
+## Content Micropayments
+
+The internet's advertising model exists because micropayments didn't work in 1995. Banner ads won by default. Every few years, someone proposes micropayments for content, and the idea fails against the same wall: payment friction exceeds the value of the transaction.
+
+L2 stablecoins remove the cost barrier. A reader could pay $0.05 to read an article without a subscription. A listener could pay $0.01 per song stream, with the payment going directly to the artist. A viewer could pay $0.001 to skip an ad.
+
+The technical infrastructure now exists. What remains is the UX challenge: requiring a wallet-based payment for each piece of content is still more friction than clicking through an ad-supported page. The most plausible path is pre-funded wallets embedded in browsers or apps, where the user deposits $5-10 and payments are deducted automatically as they browse — similar to how prepaid transit cards work.
+
+The Lightning Network on Bitcoin pioneered this model for streaming sats (fractions of a Bitcoin) to podcasters. Stablecoins on Ethereum L2s offer the same mechanism with the advantage of dollar-denominated pricing, which removes the volatility problem that limited Lightning's adoption for commerce.
+
+## Machine-to-Machine Payments
+
+IoT devices generate economic activity that can't be captured by human-initiated payment flows. An electric vehicle negotiating a charging rate with a charging station. A sensor network selling real-time weather data to agricultural platforms. A drone paying for airspace access on a per-minute basis.
+
+These transactions are small (often sub-cent), frequent (potentially thousands per day per device), and automated (no human in the loop). They require payment rails that are programmable, permissionless, and cheap enough that the transaction cost doesn't exceed the transaction value.
+
+Smart contracts can encode the pricing logic: a device deposits stablecoins into a payment contract, and usage fees are deducted automatically based on metered consumption. No invoicing, no monthly reconciliation, no accounts receivable.
+
+This is still early. Most IoT payment experiments are proofs of concept rather than production systems. But the infrastructure constraints that prevented machine-to-machine micropayments — high transaction fees, slow settlement, and the need for pre-established billing relationships — are resolved by L2 stablecoins and smart contracts.
+
+## Payment Channels and Streaming
+
+For very high-frequency micropayments, even L2 transaction fees can add up if each payment is a separate onchain transaction. Payment channels solve this by allowing two parties to exchange value off-chain and settle the net result onchain.
+
+The concept: two parties open a channel by depositing funds into a smart contract. They then exchange signed messages updating their respective balances — potentially thousands of times per second — without touching the blockchain. When they're done, they close the channel and settle the final balances onchain. One opening transaction, one closing transaction, unlimited payments in between.
+
+Superfluid implements a version of this as continuous payment streams. A user "streams" USDC to a service provider at a defined rate — say, $0.0001 per second — with the balance updating continuously. The stream can be started, stopped, or adjusted at any time.
+
+## Why This Matters
+
+Micropayments don't just make small purchases cheaper. They enable business models that are structurally impossible on traditional rails. Per-use pricing, real-time revenue sharing, machine-to-machine commerce, and creator-direct payments all depend on the ability to transfer tiny amounts of value at negligible cost.
+
+The gap between "technically possible" and "widely adopted" is still wide. Wallet UX, consumer habits, and developer tooling all need to mature. But the economic barrier — the $0.30 floor that prevented micropayments for three decades — is gone.

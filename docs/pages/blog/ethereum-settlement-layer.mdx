@@ -1,0 +1,56 @@
+---
+layout: minimal
+date: 2026-03-10
+---
+
+# Why Ethereum Is the Settlement Layer for Stablecoins
+
+Over $150 billion in stablecoins sit on Ethereum and its Layer 2 networks. That number has grown every year since Tether first deployed on Ethereum in 2017. No competing chain has come close to displacing it.
+
+The reason is structural, not accidental. Ethereum provides the combination of security guarantees, liquidity depth, and composability that stablecoin issuers and their institutional users actually require. Purpose-built chains can optimize for throughput, but they cannot replicate Ethereum's settlement properties without inheriting Ethereum's security model — which is exactly what L2s do.
+
+## Security as a Non-Negotiable
+
+Stablecoins represent real liabilities. Circle holds $30+ billion in reserves backing USDC. PayPal backs PYUSD with short-duration Treasuries and cash. When a stablecoin issuer picks a settlement layer, they are choosing where those liabilities live onchain.
+
+Ethereum's proof-of-stake network secures over $60 billion in staked ETH. An attacker would need to acquire and burn a significant fraction of that to compromise the chain. No other smart contract platform offers comparable economic security. For an issuer holding billions in obligations, this is the deciding factor — not gas costs or block times.
+
+Solana, Tron, and newer entrants process large stablecoin volumes, particularly for retail transfers and exchange settlement. But the largest institutional flows — treasury operations, cross-border settlements, tokenized asset redemptions — settle on Ethereum or Ethereum L2s. The cost of a settlement failure at that scale dwarfs any savings on transaction fees.
+
+## L2s Solve the Cost Problem Without Sacrificing the Security Model
+
+Ethereum L1 transactions cost dollars. That priced out payments use cases for years. Layer 2 rollups changed the calculus entirely.
+
+Base, Arbitrum, and Optimism process transactions for fractions of a cent while inheriting Ethereum's security through proof publication to L1. After EIP-4844 (March 2024) introduced blob transactions, L2 data costs dropped by roughly 90%. A USDC transfer on Base costs under $0.01. That is cheaper than ACH and orders of magnitude cheaper than wire transfers.
+
+The L2 model gives stablecoin payments the throughput of a high-performance chain and the finality guarantees of Ethereum. This is not a temporary compromise. It is the architecture Ethereum was designed to converge on.
+
+## Liquidity Begets Liquidity
+
+DeFi protocols on Ethereum hold over $80 billion in total value locked. That liquidity is directly relevant to stablecoin utility. A stablecoin on Ethereum can be swapped, lent, used as collateral, or streamed through payment channels — all without bridging to another chain or trusting a centralized intermediary.
+
+Cross-chain bridges remain one of the largest sources of exploits in crypto. Over $2 billion has been lost to bridge hacks since 2021. Every bridge introduces trust assumptions that undermine the point of using a blockchain for settlement. Stablecoins that stay within the Ethereum ecosystem avoid this attack surface entirely.
+
+Liquidity also matters for price stability. USDC and USDT maintain tight pegs on Ethereum because deep AMM pools and active arbitrageurs correct deviations within seconds. On thinner chains, depegs during volatility events are more common and longer-lasting.
+
+## The Issuer Perspective
+
+Circle deploys USDC natively on Ethereum, Base, Arbitrum, Optimism, Polygon, and Solana, among others. But Ethereum remains the canonical chain — the one where the largest mints and burns occur, where institutional integrations are built, and where the deepest liquidity exists.
+
+PayPal launched PYUSD on Ethereum first, then expanded to Solana for retail transaction throughput. The pattern is consistent: Ethereum for settlement integrity, other chains for distribution reach.
+
+This is not loyalty. It is risk management. Issuers cannot afford to place billions on infrastructure that lacks battle-tested security and deep market liquidity. New chains must prove themselves over years, not months.
+
+## Purpose-Built Chains Face a Cold Start Problem
+
+Several projects have launched chains optimized specifically for stablecoin payments. They offer low fees, fast finality, and compliance features baked into the protocol. These are real advantages for specific use cases.
+
+But they face the same cold start problem every new chain faces: no liquidity, no integrations, no track record. A payments chain with $50 million in TVL cannot serve institutional settlement. A chain with six months of uptime cannot attract a regulated issuer managing billions.
+
+Ethereum and its L2 ecosystem have a decade of operational history. Thousands of audited smart contracts. Hundreds of integrations with wallets, exchanges, custodians, and fiat on-ramps. Rebuilding that on a new chain takes years, and by the time it is rebuilt, Ethereum's ecosystem has compounded further.
+
+## Where This Leads
+
+Stablecoin settlement will increasingly happen on L2s, not L1. Ethereum mainnet will serve as the security anchor and the venue for the largest, most sensitive settlements. L2s will handle the volume — payroll, point-of-sale, cross-border remittances, streaming payments.
+
+This is the endgame Ethereum has been building toward since the rollup-centric roadmap was articulated in 2020. Stablecoins are the first major use case where it is visibly working. The transaction fees are low enough, the security is strong enough, and the liquidity is deep enough. Purpose-built competitors will capture niches, but the center of gravity stays on Ethereum.

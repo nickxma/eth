@@ -1,0 +1,59 @@
+# Global Payouts
+
+A US-based company hiring a designer in Brazil, a developer in Nigeria, and a marketer in the Philippines faces a logistical problem that has nothing to do with finding talent. Paying them is the hard part. International wire transfers cost $25-50 each, take 1-5 business days, and require the recipient to have a bank account denominated in a currency the sending bank can reach. Payment platforms like Payoneer and Wise solve some of this, but still impose 1-3% conversion spreads and multi-day settlement windows.
+
+For companies making hundreds or thousands of international payments per month — marketplaces paying sellers, gig platforms paying workers, agencies paying freelancers — these costs compound into a material operational expense.
+
+## The Stablecoin Alternative
+
+Stablecoin payouts replace the entire correspondent banking chain with a single onchain transfer. The company holds USDC or USDT. The contractor provides a wallet address. The transfer settles in seconds on an L2 and costs under $0.01 in network fees.
+
+The practical workflow:
+
+1. Company funds a payout wallet with stablecoins (via exchange, OTC desk, or direct minting for large volumes).
+2. Payout is initiated — either manually or via API through a payout platform.
+3. Stablecoins arrive in the contractor's wallet within minutes.
+4. The contractor holds the stablecoins or converts to local currency through a local exchange or off-ramp.
+
+This workflow eliminates intermediary banks, nostro/vostro account requirements, and SWIFT messaging. It also eliminates the concept of "banking hours" — payouts can execute at any time, on any day.
+
+## Platforms and Infrastructure
+
+Several companies have built payout infrastructure on stablecoin rails:
+
+**Rise** provides compliant contractor payments in 190+ countries, with stablecoin payout options alongside traditional bank transfers. **Deel**, one of the largest global payroll platforms, added crypto payout options including USDC. **Papaya Global** supports stablecoin settlements for enterprise clients.
+
+On the infrastructure layer, **Circle's Programmable Wallets** and **Stripe's stablecoin payouts** (launched in 2025) allow companies to embed stablecoin disbursements into existing workflows without building crypto-native systems. The company's finance team sees a familiar dashboard; the settlement happens onchain.
+
+For high-volume payers, **Request Network** and similar protocols enable batch payouts — hundreds of transfers in a single transaction — with built-in invoicing and accounting metadata attached to the onchain record.
+
+## Compliance Considerations
+
+Cross-border payments trigger regulatory obligations regardless of the payment rail. Companies paying contractors in stablecoins must still:
+
+- Collect tax identification information (W-8BEN for non-US contractors).
+- Comply with sanctions screening (OFAC, EU sanctions lists).
+- Report payments to relevant tax authorities.
+- Classify workers correctly (contractor vs. employee) under local labor law.
+
+Stablecoins don't change these obligations. They change the settlement mechanism. The compliance layer sits on top. Most payout platforms handle this — collecting required documentation, screening against sanctions lists, and generating tax reporting forms — regardless of whether the underlying transfer is a wire, ACH, or stablecoin transaction.
+
+One compliance advantage: onchain transactions create an immutable audit trail. Every payout is traceable, timestamped, and linked to a specific wallet. This is useful during tax audits and regulatory examinations.
+
+## Where It Matters Most
+
+The cost savings are most dramatic in corridors where traditional banking infrastructure is expensive or unreliable:
+
+- **Sub-Saharan Africa.** Wire transfers to many African countries are slow, expensive, and occasionally fail due to correspondent banking limitations. Stablecoin payouts bypass the entire chain.
+- **Latin America.** Currency volatility means contractors in Argentina or Venezuela often prefer USD-denominated stablecoins over local currency payments that lose value before they can be spent.
+- **Southeast Asia.** Large freelancer populations in the Philippines, Vietnam, and Indonesia benefit from instant settlement and low fees, especially for smaller payment amounts where wire transfer fixed costs are disproportionate.
+
+For a company paying 50 international contractors $2,000 each per month via wire transfer at $40 per wire, the annual transfer cost alone is $24,000. Stablecoin payouts reduce this to near zero in network fees, plus whatever the off-ramp costs for contractors who convert to local currency.
+
+## Practical Limitations
+
+Contractors need a way to convert stablecoins to local currency for daily expenses. In countries with liquid crypto markets (Nigeria, Brazil, the Philippines), this is straightforward. In countries with restrictive crypto regulation or thin markets, it's harder.
+
+Accounting integration is another friction point. Most ERP and accounting systems don't natively support stablecoin transactions. Payout platforms are building bridges — generating invoices, tracking exchange rates, and producing reports compatible with standard accounting software — but the integration is still maturing.
+
+Volatility risk is minimal (stablecoins are pegged), but depegging events are not zero-probability. Companies making large payouts typically convert fiat to stablecoins close to the payout time rather than holding large stablecoin reserves.

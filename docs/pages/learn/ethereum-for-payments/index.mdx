@@ -1,0 +1,49 @@
+# Ethereum for Payments
+
+Stablecoins on Ethereum and its Layer 2 networks settled over $8 trillion in transaction volume in 2024. That figure rivals Visa's annual payment volume and exceeds Mastercard's. Most of this activity happened quietly — treasury operations, cross-border settlement, payroll, remittances — not the speculative trading that dominates crypto headlines.
+
+Ethereum's relevance to payments rests on a few structural properties that traditional rails lack.
+
+## Settlement Without Intermediaries
+
+A payment on Ethereum settles in minutes. No batch processing. No T+2 delay. No correspondent banking chain. The sender's balance decreases and the receiver's balance increases in the same atomic transaction. Both parties can verify the result independently, without trusting a third party's ledger.
+
+This matters most where the existing infrastructure is slowest: cross-border transfers, weekend and holiday settlement, and payments between parties that don't share a banking relationship.
+
+## Composability
+
+Every token, every smart contract, and every protocol on Ethereum shares the same execution environment. A stablecoin payment can trigger an invoice settlement, update an onchain accounting record, and release escrowed funds — all in one transaction.
+
+Traditional payment systems are walled gardens. Connecting a bank transfer to an ERP update to a treasury sweep requires multiple APIs, multiple intermediaries, and multiple days. Onchain composability compresses that into a single block.
+
+## Credible Neutrality
+
+Ethereum is a public network with no single operator. No company can freeze the network, alter its rules unilaterally, or revoke access. This neutrality makes it viable as shared infrastructure between competitors — the same way TCP/IP works for the internet.
+
+Card networks are run by Visa and Mastercard. SWIFT is a cooperative, but access is gated and geopolitically influenced. Ethereum's neutrality is enforced by its consensus mechanism, not by governance agreements.
+
+## The Shift to Productive Use
+
+From 2017 to 2022, most onchain activity was speculative: trading tokens, yield farming, minting NFTs. That era established the infrastructure — wallets, bridges, block explorers, RPC providers — but the use cases were circular. Crypto was mostly used to buy more crypto.
+
+The current period looks different. Stablecoin transfer volume now dwarfs DEX trading volume. PayPal, Visa, and BlackRock have launched onchain products. The infrastructure built for speculation is being repurposed for payments, treasury management, and tokenized assets.
+
+## What Remains to Be Solved
+
+Ethereum L1 processes roughly 15 transactions per second at a cost of $1-10 per transaction, depending on network congestion. That is too slow and too expensive for point-of-sale or micropayment use cases.
+
+Layer 2 networks address this. Rollups like Arbitrum, Optimism, and Base handle thousands of transactions per second at sub-cent costs while inheriting Ethereum's security guarantees. The tradeoff is added complexity: users and applications must bridge assets, understand different confirmation times, and navigate fragmented liquidity.
+
+User experience is another barrier. Seed phrases, gas fees, and hex addresses are hostile to mainstream adoption. Account abstraction — a set of protocol upgrades covered later in this section — eliminates most of these friction points by letting smart contract wallets sponsor gas, authenticate with biometrics, and enforce spending limits.
+
+Regulatory clarity is arriving unevenly. The EU's MiCA framework provides a classification for stablecoins and payment tokens. The U.S. has proposed but not yet passed comprehensive stablecoin legislation as of early 2026. Regulatory uncertainty remains a real constraint on institutional adoption.
+
+## Reading This Section
+
+The pages that follow cover the specific components that make Ethereum viable for payments:
+
+- **Settlement & Finality** — How onchain settlement compares to ACH, SWIFT, and card networks
+- **Account Abstraction** — The UX upgrades that make wallets usable for non-crypto users
+- **Stablecoins** — The tokens that serve as the unit of account for onchain payments
+- **L2 Scaling** — How rollups deliver the throughput and cost profile payments require
+- **Programmable Money** — What becomes possible when value transfer is embedded in code

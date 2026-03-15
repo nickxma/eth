@@ -1,0 +1,66 @@
+# Agentic Commerce
+
+Software agents are beginning to spend money. An AI assistant books a flight, pays for a research API, or purchases cloud compute on behalf of its user. Today, this happens through screen-scraping and stored credit card credentials — the agent pretends to be a human clicking through a checkout flow. It works, but it's fragile, slow, and constrained by interfaces designed for people.
+
+Programmable money on programmable rails changes what's possible. An agent with a stablecoin wallet and a smart contract interface can transact directly — no browser automation, no card numbers, no checkout pages.
+
+## Why Agents Need New Payment Rails
+
+Credit cards require a human cardholder, a billing address, and a fraud-detection system designed around human behavior patterns. When an agent makes a purchase, it triggers fraud signals: unusual IP, no browser fingerprint, rapid sequential transactions. Card networks were not designed for non-human purchasers.
+
+Bank transfers require pre-established relationships and manual authorization. ACH and wire transfers don't have APIs that agents can call autonomously in real time.
+
+Stablecoin wallets have none of these constraints. A wallet is a cryptographic key pair. Any software that can sign a transaction can hold and transfer funds. There's no identity verification at the protocol level, no fraud system to trigger, and no business hours. An agent can receive USDC, hold it, and spend it — all through standard smart contract calls.
+
+## The Emerging Agent Payment Stack
+
+The stack is taking shape across several layers:
+
+**Wallet infrastructure.** Agent wallets are typically smart contract wallets with programmable spending controls. A user deploys a wallet for their agent with rules: spend up to $50 per transaction, $500 per day, only interact with whitelisted contracts. The agent operates autonomously within those bounds.
+
+Coinbase's AgentKit and similar toolkits provide SDKs for creating and managing agent wallets. An LLM-based agent can be initialized with a funded wallet and the ability to sign transactions as part of its tool set — alongside web search, code execution, and other capabilities.
+
+**Service discovery.** For agents to buy services from other agents or from automated providers, they need a way to discover what's available and at what price. Onchain registries and standardized service description formats are emerging. An API provider can publish its pricing and endpoint information to a smart contract. An agent queries the registry, evaluates the price, and initiates payment — all without human involvement.
+
+**Payment protocols.** Direct stablecoin transfers work for simple purchases. More complex interactions — subscriptions, metered usage, conditional payments — require payment protocols. An agent consuming a pay-per-call API might use a payment channel (streaming small amounts as it makes requests) or a pre-authorized smart contract (depositing funds that are released based on usage metrics reported by an oracle or mutual attestation).
+
+## Agent-to-Agent Transactions
+
+The most novel aspect of agentic commerce is agents transacting with each other. A research agent needs data. A data-provider agent has it. They negotiate a price, execute the exchange, and settle payment — all programmatically.
+
+This requires:
+
+1. A common medium of exchange (stablecoins provide this).
+2. A settlement layer both agents can access (Ethereum or an L2).
+3. A way to make payment conditional on delivery (smart contract escrow).
+
+Early implementations are straightforward: Agent A sends USDC to a smart contract. Agent B delivers the data or service. The contract releases payment upon confirmation. Dispute resolution is the hard part — when both parties are software, "confirmation" needs to be programmatically verifiable rather than based on human judgment.
+
+## Current Experiments
+
+**Skyfire** provides payment infrastructure specifically for AI agents — wallets, spending controls, and settlement APIs designed for non-human transactors. Agents can be provisioned with funded wallets and spending policies, then interact with any service that accepts onchain payment.
+
+**NEAR's AI agent framework** includes a payment layer where agents on the NEAR network can transact using stablecoins. The focus is on enabling autonomous agents to participate in decentralized marketplaces.
+
+**Morpheus** and other decentralized AI agent networks are building marketplaces where agents offer and consume services, with stablecoin settlement as the default payment method.
+
+**OpenAI's function calling and Anthropic's tool use** give LLM-based agents the ability to invoke external functions — including signing blockchain transactions. An agent that can call a "transfer USDC" function is an agent that can pay for things.
+
+These are early-stage systems. Transaction volumes are small. But they demonstrate the core pattern: software that can hold, evaluate, and transfer value autonomously.
+
+## Guardrails and Control
+
+Autonomous spending by software raises obvious questions. The answer, in the current architecture, is programmable constraints:
+
+- **Spending limits.** Smart contract wallets enforce per-transaction, daily, and monthly caps. The agent cannot exceed them regardless of what it "decides" to do.
+- **Whitelists.** The wallet can restrict interactions to a predefined set of contracts or addresses. The agent can pay for approved services but cannot send funds to arbitrary destinations.
+- **Multi-signature approval.** High-value transactions can require human co-signing. The agent initiates the transaction; a human approves it via a notification on their phone.
+- **Kill switches.** The user can revoke the agent's access to the wallet at any time by updating the smart contract's permissions.
+
+These controls exist at the wallet and contract level, not in the agent's code. The agent doesn't enforce its own spending limits — the blockchain does. This is a meaningful security property: the constraints are tamper-resistant even if the agent's behavior is unpredictable.
+
+## What This Means
+
+Agentic commerce is where stablecoins and AI capability curves intersect. As agents become more capable — better at planning, tool use, and autonomous decision-making — their need for independent financial agency grows. Traditional payment rails can't serve non-human transactors. Programmable money on programmable rails can.
+
+The timeline is uncertain. Widespread agent-to-agent commerce depends on agent reliability, service standardization, and user trust in autonomous spending. But the payment infrastructure is not the bottleneck. It already works.
