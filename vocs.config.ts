@@ -1,9 +1,9 @@
 import { defineConfig } from 'vocs'
 
 export default defineConfig({
-  title: 'Learn Ethereum',
-  titleTemplate: '%s — Learn Ethereum',
-  description: 'An educational resource covering Ethereum\'s real-world use cases, starting with payments infrastructure and stablecoins.',
+  title: 'Onchain Payments',
+  titleTemplate: '%s — Onchain Payments',
+  description: 'A research resource on stablecoin payment infrastructure — settlement, account abstraction, L2 scaling, and real-world use cases.',
   aiCta: false,
   basePath: '/eth',
   iconUrl: '/favicon.svg',
@@ -24,7 +24,6 @@ export default defineConfig({
   },
   topNav: [
     { text: 'Learn', link: '/learn', match: '/learn' },
-    { text: 'Blog', link: '/blog' },
   ],
   sidebar: {
     '/learn': [
@@ -54,5 +53,4 @@ export default defineConfig({
       },
     ],
   },
-  blogDir: './pages/blog',
 })
