@@ -1,45 +1,45 @@
 # Account Abstraction
 
-Ethereum wallets were designed for cryptographers. You generate a private key, derive an address, sign transactions with ECDSA, and pay gas in ETH. Lose the key and you lose everything. Send to the wrong address and there's no recourse. Every interaction requires ETH in your wallet before you can do anything, even if you're transacting in stablecoins.
+Ethereum wallets were designed for cryptographers. You generate a private key, derive an address, sign transactions with ECDSA, and pay gas in ETH. Lose the key and you lose access. Every interaction assumes the user understands signatures, networks, and gas.
 
-Account abstraction replaces this model with smart contract wallets that behave like normal software accounts. Two standards make this possible: ERC-4337 and EIP-7702.
+Account abstraction replaces this model with wallets that behave more like normal software accounts. On Ethereum today, two important building blocks are ERC-4337 and EIP-7702. They solve different problems and should not be conflated.
 
 ## ERC-4337: Smart Accounts Without Protocol Changes
 
-ERC-4337, live on Ethereum since March 2023, introduces smart contract wallets through an alternative transaction pipeline. Instead of submitting transactions directly to the mempool, users submit "UserOperations" to a separate mempool. Bundlers collect these operations and submit them to an onchain EntryPoint contract, which calls the user's smart contract wallet to validate and execute the operation.
+ERC-4337, live since March 2023, introduces smart accounts without a consensus-layer change. Instead of submitting ordinary transactions directly to the public mempool, users submit `UserOperation` objects to an alternative mempool. Bundlers collect them and call an onchain `EntryPoint` contract, which asks the user's smart account and optional paymaster to validate and execute the action.
 
-This indirection enables several capabilities that externally owned accounts (EOAs) cannot support:
+This indirection enables several capabilities that plain externally owned accounts do not support cleanly:
 
-**Gas sponsorship.** A paymaster contract can pay the gas fee on behalf of the user. A stablecoin payment app can sponsor all gas costs so users never need to hold or understand ETH. The paymaster might be funded by the application, by the merchant, or by deducting a fee from the stablecoin transfer itself. From the user's perspective, gas does not exist.
+**Gas sponsorship.** A paymaster contract can pay gas on behalf of the user. A payment app can hide ETH entirely and recover its economics elsewhere in the product.
 
-**Arbitrary signature verification.** Smart contract wallets can validate any signature scheme, not just ECDSA. This enables passkey authentication — users sign transactions with their device's biometric sensor (Face ID, fingerprint) through the WebAuthn standard. No seed phrase. No browser extension. The private key lives in the device's secure enclave and never leaves it.
+**Flexible authentication.** Smart accounts can validate more than a plain ECDSA signature. That makes passkey-based UX possible, but passkeys come from wallet implementations and WebAuthn flows, not from ERC-4337 alone.
 
-**Batched execution.** A single UserOperation can execute multiple calls atomically. Transfer stablecoins, approve a subscription, and update a registry — one confirmation, one signature. This removes the multi-step approval flows that frustrate users in current DeFi interfaces.
+**Batched execution.** A single user action can execute multiple contract calls atomically. That removes multi-step approval flows that are awkward in mainstream payment UX.
 
-**Modular validation logic.** The wallet's validation function is programmable. This opens the design space for spending limits, timelocks, multi-signature requirements, and social recovery — all enforced at the wallet level, not by a custodian.
+**Programmable validation.** Spending limits, multisig policies, recovery logic, timelocks, and merchant-specific permissions can be enforced at the wallet layer.
 
-## EIP-7702: Upgrading Existing Accounts
+## EIP-7702: Adding Smart-Account Behavior to EOAs
 
-EIP-7702, included in Ethereum's Pectra upgrade in 2025, takes a different approach. It allows existing EOAs to temporarily delegate their execution to a smart contract within a single transaction. The EOA sets a "delegation designator" pointing to a contract's code, which then governs how that transaction executes.
+EIP-7702, activated in Ethereum's Pectra upgrade on May 7, 2025, takes a different approach. It adds a transaction type that lets an externally owned account set a delegation pointer to contract code. That delegation is persistent until the account changes or clears it. In other words, 7702 is not a one-transaction trick; it is a protocol primitive for letting EOAs execute through contract code while remaining transaction-originating accounts.
 
-This matters because billions of dollars in assets sit in existing EOAs. ERC-4337 requires users to migrate to new smart contract wallets. EIP-7702 lets existing wallets gain smart account features without moving assets. An EOA can opt into gas sponsorship, batched execution, or custom validation for individual transactions while remaining a normal EOA otherwise.
+This matters because huge amounts of value still sit in EOAs. ERC-4337 often implies moving users into dedicated smart accounts. EIP-7702 lets existing wallets gain some smart-account behavior without moving assets to a new address.
 
-The two standards are complementary. ERC-4337 is better for new users who start with smart accounts from day one. EIP-7702 is better for existing users and applications that need backward compatibility.
+The two standards are complementary. ERC-4337 is a wallet infrastructure pattern centered on smart accounts, bundlers, and paymasters. EIP-7702 is a protocol feature that lets EOAs delegate execution to shared contract logic. Wallets can combine them, but one does not replace the other.
 
 ## Why This Matters for Payments
 
-**Session keys** allow a wallet to grant temporary, scoped permissions to an application. A user could authorize a payment app to spend up to $500 per day from their wallet for the next 30 days — without approving each individual transaction. The session key enforces the constraints onchain. If the app tries to exceed the limit, the transaction reverts.
+**Session keys and spend permissions** allow a wallet to grant temporary, scoped permissions to an application. A user could authorize a payment app to spend up to $500 per day for the next 30 days without approving each transfer individually. That behavior comes from wallet logic rather than a single universal Ethereum standard, but it is one of the clearest account-abstraction payment unlocks.
 
-This is the UX model that recurring payments, subscriptions, and tap-to-pay interactions require. Today's wallet confirmation popup for every transaction is incompatible with how people actually pay for things.
+This is the UX model that subscriptions, recurring payments, and low-friction commerce require. A confirmation popup for every payment is not workable at scale.
 
-**Spending limits and controls** can be enforced by the wallet contract itself. A parent could configure a child's wallet with a $50 daily limit and restrict it to approved merchants. A corporate treasury could require two of three signers for transfers above $10,000. These rules execute onchain — no custodian or admin panel can override them.
+**Spending controls** can be enforced by the wallet itself. A parent could configure a child's wallet with a daily cap and merchant restrictions. A treasury wallet could require multiple signers above a threshold. Those rules live in code rather than in a policy PDF or a bank portal.
 
-**Recovery without seed phrases** is possible through social recovery schemes. A user designates three trusted contacts (or institutions). If they lose access, two of three guardians can authorize a key rotation. This is meaningfully safer than a 12-word phrase written on paper and stored in a drawer.
+**Recovery without seed phrases** is also possible. Guardians, passkeys, hardware devices, and recovery policies can be composed into safer flows than a single recovery phrase written on paper.
 
 ## Adoption Status
 
-As of early 2026, smart accounts are deployed across most major L2 networks. Coinbase's smart wallet on Base, Safe's modular accounts, and Biconomy's SDK are among the most widely integrated. The majority of new wallet deployments on high-activity L2s are smart contract wallets rather than EOAs.
+As of early 2026, smart-account infrastructure is common across major L2 ecosystems. Coinbase Smart Wallet, Safe's account stack, Circle Wallets, Alchemy, ZeroDev, and Biconomy have all pushed the model forward. The pattern is real, but adoption is still uneven across wallets, apps, and regions.
 
-Gas sponsorship is the most adopted feature. Most consumer-facing applications on L2s now sponsor gas entirely, making the ETH fee invisible to users. Passkey-based authentication is growing but still early — limited primarily to mobile-native wallets and newer applications.
+Gas sponsorship is one of the earliest and most visible features to ship. Passkey onboarding is also growing, especially in embedded wallets and mobile-first apps. What is not solved yet is universal portability: features such as session keys, recovery methods, and spending policies still vary significantly by wallet implementation.
 
-The infrastructure works. The remaining challenge is adoption across payment-specific applications: point-of-sale systems, invoicing platforms, and payroll services that integrate these capabilities into familiar workflows.
+The infrastructure is credible. The remaining challenge is productization in payment contexts: subscriptions, point-of-sale, invoicing, payroll, and merchant tooling that feel familiar to non-crypto users.

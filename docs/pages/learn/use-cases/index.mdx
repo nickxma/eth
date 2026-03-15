@@ -1,38 +1,38 @@
 # Stablecoin Use Cases
 
-Stablecoins settled over $27 trillion in onchain transaction volume in 2024 — more than Visa's annual payment volume. Most of that was trading and DeFi activity. The more interesting question is what's happening at the edges: the non-speculative use cases where stablecoins solve problems that existing payment infrastructure cannot.
+Stablecoin transfer volume ran into the tens of trillions of dollars in 2024, but that headline figure should not be read as pure payment volume. It includes trading, bot flows, treasury rebalancing, and other non-payment activity. The more interesting question is narrower: where do stablecoins already solve real payment problems better than legacy rails?
 
 ## Where Traditional Rails Break
 
-International wire transfers take 1-5 business days and cost $25-50 per transaction. Correspondent banking chains add friction and opacity — a payment from Nigeria to the Philippines might pass through three intermediary banks, each taking a cut and adding delay. Small-value cross-border transfers are even worse: remittance corridors average 6.4% in fees globally, with some African corridors exceeding 10%.
+International wire transfers often take 1-5 business days and can involve fixed fees, FX spreads, and opaque correspondent-bank routing. Small-value cross-border transfers are worse: according to the World Bank, the global average cost of sending $200 remained about 6.5% in 2025, with some corridors materially higher.
 
-Domestic payments are faster but still carry structural costs. Card networks charge merchants 1.5-3.5% per transaction. ACH is cheap but slow. Real-time payment systems like FedNow exist but lack programmability and have limited international reach.
+Domestic rails are better in some markets, but still constrained. Card networks impose meaningful merchant fees. ACH is cheap but not real time by default. Faster-payment systems improve speed but usually remain domestic and are not natively programmable.
 
-These aren't temporary inefficiencies. They're features of a system built on message-passing between ledgers that don't share state. Every intermediary in the chain maintains its own ledger, reconciles asynchronously, and prices risk accordingly.
+These are not accidental inefficiencies. They are consequences of a system built on message passing between institutions that maintain separate ledgers and reconcile asynchronously.
 
 ## What Stablecoins Change
 
-A stablecoin transfer is a ledger update on a shared, global database. Settlement is the transaction itself — there's no second step. This eliminates the intermediary chain and collapses the settlement window from days to seconds.
+A stablecoin transfer is a state update on a shared ledger. Settlement is closer to the payment event itself rather than a later reconciliation step. This removes parts of the intermediary chain and compresses the timeline from days to seconds for user-visible confirmation.
 
-On Ethereum L2s, transaction fees are typically under $0.01. Transfers are final within minutes. The sender and receiver can be anywhere. No correspondent banking relationship required. No SWIFT messages. No nostro/vostro account management.
+On Ethereum L2s, transaction fees are often fractions of a cent to a few cents and user-visible confirmation usually arrives in seconds. Finality is more nuanced than that sentence suggests, but the user experience is still dramatically faster than correspondent banking. The sender and receiver can be anywhere. No SWIFT messages. No nostro/vostro account chain.
 
-This makes several categories of payment newly viable or dramatically cheaper:
+This makes several categories of payment newly viable or materially cheaper:
 
-- **Remittances** — Workers sending money home can avoid 6%+ fees on sub-$500 transfers.
-- **Global payouts** — Companies paying international contractors can settle in minutes instead of waiting on wire transfers.
-- **Payroll** — Recurring salary payments can be programmed and executed onchain with precise timing.
-- **Embedded finance** — Platforms can integrate payment flows without building on top of legacy card networks.
-- **Microtransactions** — Sub-cent payments become economically feasible when transaction fees drop below $0.01.
-- **Agentic commerce** — Software agents can hold and transfer value autonomously using programmable money.
+- **Remittances** — Workers sending money home can sometimes avoid the fee burden of traditional remittance rails.
+- **Global payouts** — Companies paying contractors and sellers across borders can settle much faster.
+- **Payroll** — Net-pay delivery can be routed onchain even if payroll processing remains fiat-based.
+- **Embedded finance** — Platforms can build escrow, instant payout, and programmable settlement into their products.
+- **Microtransactions** — Small-value payments become more viable when transfer costs fall sharply.
+- **Agentic commerce** — Software agents can use programmable wallets and constrained spending policies.
 
 ## Current Adoption
 
-Stablecoin supply crossed $210 billion in early 2025. USDT dominates with roughly 60% market share, primarily on Tron and Ethereum. USDC holds about 25%, with stronger adoption among regulated institutions and developers building on Ethereum and its L2s.
+Stablecoin supply moved above $300 billion by early 2026. USDT remains the largest token by circulation and is especially important on Tron and in emerging-market retail flows. USDC is smaller by supply but disproportionately important in regulated, institutional, and Ethereum-centric workflows.
 
-Geographic adoption is uneven and revealing. In countries with stable currencies and functional banking — the US, EU, Japan — stablecoins are mostly used by crypto-native users and institutions. In countries with currency instability, capital controls, or underdeveloped banking — Argentina, Turkey, Nigeria, the Philippines — stablecoins serve as practical financial infrastructure. An estimated 28% of crypto transactions in sub-Saharan Africa are stablecoin transfers, many of which are remittances or merchant payments.
+Geographic adoption is uneven and revealing. In countries with stable currencies and functional banking, stablecoins are still mostly used by crypto-native users, fintechs, and institutions. In countries facing inflation, capital controls, weak banking interoperability, or expensive cross-border rails, they increasingly function as practical financial infrastructure.
 
 ## What's Next
 
-Regulatory clarity is accelerating. The EU's MiCA framework established stablecoin rules in 2024. The US is moving toward federal stablecoin legislation. As regulatory frameworks solidify, the barrier for institutional adoption drops.
+Regulatory clarity is accelerating. The EU's MiCA framework is in force. The United States enacted the GENIUS Act in July 2025, though implementation remains ongoing. As rules become clearer, the barrier for institutional adoption drops, but compliance still shapes which use cases can scale cleanly.
 
-The convergence of L2 scaling (sub-cent fees, sub-second finality), regulatory progress, and growing real-world adoption suggests stablecoins are transitioning from crypto-native infrastructure to general-purpose payment rails. The use cases covered in this section are where that transition is most visible today.
+The convergence of cheaper rollups, more usable wallets, and more explicit stablecoin rules suggests that stablecoins are moving from crypto-native infrastructure toward broader payment plumbing. The pages in this section cover the places where that shift is most visible today.

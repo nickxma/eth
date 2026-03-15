@@ -1,42 +1,42 @@
 # Ethereum for Payments
 
-Stablecoins on Ethereum and its Layer 2 networks settled over $8 trillion in transaction volume in 2024. That figure rivals Visa's annual payment volume and exceeds Mastercard's. Most of this activity happened quietly — treasury operations, cross-border settlement, payroll, remittances — not the speculative trading that dominates crypto headlines.
+Stablecoins are now the most important payments-related use case in crypto. Raw onchain transfer volume runs into the trillions of dollars annually, but those totals mix together real payments, exchange settlement, treasury rebalancing, bot flows, and internal application activity. The more durable point is simpler: Ethereum and its Layer 2 networks give businesses a shared settlement layer that is global, always on, and programmable.
 
 Ethereum's relevance to payments rests on a few structural properties that traditional rails lack.
 
 ## Settlement Without Intermediaries
 
-A payment on Ethereum settles in minutes. No batch processing. No T+2 delay. No correspondent banking chain. The sender's balance decreases and the receiver's balance increases in the same atomic transaction. Both parties can verify the result independently, without trusting a third party's ledger.
+A payment on Ethereum updates a shared ledger directly. There is no correspondent banking chain, no end-of-day batch file, and no separate reconciliation layer between participants. On Ethereum L1, transaction inclusion happens roughly every 12 seconds and economic finality typically arrives after about two epochs, or around 13 minutes. On rollups, user-visible confirmation is usually much faster, but the exact security and finality path depends on the rollup design.
 
 This matters most where the existing infrastructure is slowest: cross-border transfers, weekend and holiday settlement, and payments between parties that don't share a banking relationship.
 
 ## Composability
 
-Every token, every smart contract, and every protocol on Ethereum shares the same execution environment. A stablecoin payment can trigger an invoice settlement, update an onchain accounting record, and release escrowed funds — all in one transaction.
+Every token, every smart contract, and every protocol on Ethereum shares the same execution environment. A stablecoin payment can trigger an invoice settlement, update an onchain accounting record, and release escrowed funds in the same workflow.
 
-Traditional payment systems are walled gardens. Connecting a bank transfer to an ERP update to a treasury sweep requires multiple APIs, multiple intermediaries, and multiple days. Onchain composability compresses that into a single block.
+Traditional payment systems are walled gardens. Connecting a bank transfer to an ERP update to a treasury sweep usually requires multiple APIs, multiple intermediaries, and multiple reconciliation steps. Onchain composability collapses much of that into one state transition.
 
 ## Credible Neutrality
 
-Ethereum is a public network with no single operator. No company can freeze the network, alter its rules unilaterally, or revoke access. This neutrality makes it viable as shared infrastructure between competitors — the same way TCP/IP works for the internet.
+Ethereum is a public network with no single operator. No company can freeze the network, change its rules on its own, or revoke access to blockspace. That neutrality makes it plausible as shared infrastructure between competitors in a way proprietary payment rails are not.
 
-Card networks are run by Visa and Mastercard. SWIFT is a cooperative, but access is gated and geopolitically influenced. Ethereum's neutrality is enforced by its consensus mechanism, not by governance agreements.
+That neutrality has limits at the asset layer. The Ethereum network itself is neutral, but many payment tokens on it are centrally issued stablecoins whose issuers can freeze addresses or refuse redemptions. A payments stack built on Ethereum inherits both properties at once: neutral settlement rails and, often, centrally managed dollars.
 
 ## The Shift to Productive Use
 
-From 2017 to 2022, most onchain activity was speculative: trading tokens, yield farming, minting NFTs. That era established the infrastructure — wallets, bridges, block explorers, RPC providers — but the use cases were circular. Crypto was mostly used to buy more crypto.
+From 2017 to 2022, most onchain activity was speculative: trading tokens, yield farming, and minting NFTs. That era still mattered because it built the underlying infrastructure: wallets, bridges, block explorers, RPC providers, and liquidity venues.
 
-The current period looks different. Stablecoin transfer volume now dwarfs DEX trading volume. PayPal, Visa, and BlackRock have launched onchain products. The infrastructure built for speculation is being repurposed for payments, treasury management, and tokenized assets.
+The current period looks different. Stablecoins, tokenized funds, and institutional settlement products now occupy a meaningful share of activity. PayPal, Visa, Stripe, and BlackRock have all launched onchain products or infrastructure. The stack built during crypto's speculative cycles is being repurposed for payments, treasury management, and tokenized assets.
 
 ## What Remains to Be Solved
 
-Ethereum L1 processes roughly 15 transactions per second at a cost of $1-10 per transaction, depending on network congestion. That is too slow and too expensive for point-of-sale or micropayment use cases.
+Ethereum L1 remains too expensive for most everyday payment traffic. Throughput is limited, and fees can spike sharply during periods of demand. That makes L1 a poor fit for point-of-sale flows, consumer micropayments, and other high-frequency payment workloads.
 
-Layer 2 networks address this. Rollups like Arbitrum, Optimism, and Base handle thousands of transactions per second at sub-cent costs while inheriting Ethereum's security guarantees. The tradeoff is added complexity: users and applications must bridge assets, understand different confirmation times, and navigate fragmented liquidity.
+Layer 2 networks address this by moving execution off L1 and settling back to Ethereum. In practice, networks such as Base, Arbitrum, and OP Mainnet offer much lower fees and faster user-visible confirmations than L1. The tradeoff is added complexity: bridges, fragmented liquidity, centralized sequencers, upgrade keys, and different finality models across rollups.
 
-User experience is another barrier. Seed phrases, gas fees, and hex addresses are hostile to mainstream adoption. Account abstraction — a set of protocol upgrades covered later in this section — eliminates most of these friction points by letting smart contract wallets sponsor gas, authenticate with biometrics, and enforce spending limits.
+User experience is another barrier. Seed phrases, gas fees, and hex addresses are still hostile to mainstream adoption. Account abstraction helps by letting wallets sponsor gas, authenticate with passkeys, batch actions, and enforce spending policies, but the ecosystem is still early and wallet behavior is not yet standardized.
 
-Regulatory clarity is arriving unevenly. The EU's MiCA framework provides a classification for stablecoins and payment tokens. The U.S. has proposed but not yet passed comprehensive stablecoin legislation as of early 2026. Regulatory uncertainty remains a real constraint on institutional adoption.
+Regulatory clarity is arriving unevenly. The EU's MiCA framework is in force. In the United States, the GENIUS Act was enacted on July 18, 2025, creating a federal framework for payment stablecoins, but implementation and supervisory details are still being worked through as of March 2026. Regulatory progress reduces one source of uncertainty, but licensing, compliance, consumer protection, and tax treatment still vary materially by jurisdiction and use case.
 
 ## Reading This Section
 

@@ -1,53 +1,53 @@
 # L2 Scaling for Payments
 
-Ethereum L1 processes approximately 15 transactions per second. During periods of high demand, a simple token transfer can cost $5-50 in gas fees. These constraints make L1 unsuitable for most payment workloads.
+Ethereum L1 is too scarce and too expensive for most retail payment traffic. Even after successive upgrades, L1 blockspace is valuable, fees are variable, and throughput is limited relative to what consumer payments require.
 
-Layer 2 networks solve this by executing transactions off the main chain and posting compressed data back to Ethereum for security. The result: thousands of transactions per second, sub-cent fees, and Ethereum's security guarantees inherited through cryptographic or economic mechanisms.
+Layer 2 networks address this by moving execution off L1 and anchoring results back to Ethereum. In practice, they provide much lower fees and faster user-visible confirmations than L1. But "inherits Ethereum security" is only directionally true. The real security model depends on proof systems, sequencer design, upgradeability, data availability, and governance.
 
 ## How Rollups Work
 
-A rollup executes transactions on its own chain, then publishes a compressed summary to Ethereum L1. Ethereum serves as the data availability layer — where the rollup's transaction history is permanently recorded and verifiable.
+A rollup executes transactions on its own chain, then posts commitments and transaction data back to Ethereum. Today that data is often published using blobs, which are much cheaper than calldata but are not permanently accessible from Ethereum's execution layer. The rollup's security model therefore depends on both Ethereum and the surrounding data-availability and archival ecosystem.
 
-Two approaches exist for proving that state transitions are correct:
+Two broad proving models exist:
 
-**Optimistic rollups** assume transactions are valid unless challenged. After the rollup posts its state to L1, there is a challenge window (typically 7 days) during which anyone can submit a fraud proof demonstrating that a state transition was invalid. If no challenge is submitted, the state is accepted. Arbitrum, Optimism, and Base use this model.
+**Optimistic rollups** assume transactions are valid unless challenged. After the rollup posts state commitments to L1, there is a challenge period during which a fault proof can contest an invalid transition.
 
-**ZK rollups** generate a cryptographic validity proof for each batch of transactions. This proof mathematically guarantees that every transaction in the batch was executed correctly. The proof is verified by a smart contract on L1. No challenge window is needed — once the proof verifies, the state is final. zkSync, Scroll, StarkNet, and Linea use this model.
+**ZK rollups** generate validity proofs showing that state transitions were executed correctly. Once the proof is accepted on L1 and the corresponding L1 block finalizes, the transition inherits Ethereum's security model.
 
-Both approaches achieve the same goal: cheap execution with Ethereum-grade security. The tradeoffs are in finality speed, computational overhead, and implementation complexity.
+Both approaches aim to separate cheap execution from expensive base-layer settlement. The tradeoffs are in finality speed, proving overhead, operational complexity, and the amount of trust users still place in sequencers, security councils, and upgrade paths.
 
 ## The L2 Landscape in 2026
 
-The L2 ecosystem has consolidated around a few high-activity networks. Base (Coinbase's L2) leads in user activity and stablecoin transfer volume. Arbitrum has the largest DeFi ecosystem. Optimism anchors the OP Stack, a shared framework used by Base, Zora, and other chains. zkSync and StarkNet lead ZK rollup adoption.
+The L2 ecosystem has consolidated around a few high-activity networks. Base, Arbitrum, and OP Mainnet sit at the center of the optimistic-rollup ecosystem. Scroll, zkSync, Starknet, and Linea are among the more visible validity-rollup efforts. The exact leaderboard changes over time, but the broader pattern is stable: most user-facing Ethereum activity now happens on L2s rather than on L1.
 
-Combined, Ethereum L2s process more transactions than L1 by a wide margin. Total value locked exceeds $30 billion. Stablecoin supply on L2s has grown from negligible in 2023 to tens of billions by early 2026.
+Combined, Ethereum L2s process far more transactions than L1. Stablecoin supply on rollups has grown from negligible levels a few years ago to tens of billions of dollars. That shift matters more for payments than the headline TVL race.
 
-This growth was driven primarily by cost reduction. Ethereum's Dencun upgrade in March 2024 introduced "blobs" — a dedicated data space for rollups that reduced L2 posting costs by 10-100x. A USDC transfer on Base or Arbitrum now costs $0.001-0.01, depending on network load.
+This growth was driven primarily by cost reduction. Ethereum's Dencun upgrade in March 2024 introduced blobs, dramatically lowering rollup data costs. Subsequent upgrades increased blob capacity further. The result is that stablecoin transfers on major rollups often cost fractions of a cent, though fees still move with demand.
 
 ## What Matters for Payments
 
 Not all scaling properties matter equally for payment workloads. The relevant dimensions are:
 
-**Transaction cost.** Payments are cost-sensitive, especially at low values. A $5 coffee cannot absorb a $0.50 transaction fee. L2s at sub-cent costs make micropayments viable. The fee needs to be predictable, too — merchants cannot price products if the transaction cost fluctuates 100x within a day.
+**Transaction cost.** Payments are cost-sensitive, especially at low values. A coffee or API call cannot absorb a meaningful fee overhead. Lower fees make new categories of payment viable.
 
-**Latency.** Point-of-sale payments need confirmation in under two seconds. L2 sequencers provide soft confirmations in 200-500 milliseconds — faster than card network authorizations. For payment applications, this sequencer confirmation is the relevant metric, not L1 finality.
+**Latency.** Point-of-sale payments need near-instant feedback. Most major rollups provide local confirmations in roughly one to two seconds, and some are experimenting with faster preconfirmation systems. That is fast enough for many commerce flows, but it is still different from Ethereum finality.
 
-**Sequencer reliability.** Most L2s run a single sequencer operated by the rollup's core team. If it goes down, the chain stops producing blocks. Arbitrum, Base, and Optimism have each experienced outages lasting minutes to hours. Payment infrastructure requires 99.99%+ uptime. Decentralized sequencer designs are in development but not yet deployed on major networks.
+**Sequencer reliability.** Most L2s still run a single active sequencer. If it fails, user experience degrades sharply and block production can halt until the operator recovers. Forced inclusion mechanisms exist on many rollups, but they are not a substitute for smooth real-time commerce UX.
 
-**Deterministic fees.** EIP-4844 made L2 fees lower and more stable, but they still vary with demand. Payment applications need to quote costs before execution. Some L2s are implementing fee markets that let applications reserve block space or guarantee maximum fees — critical for payment use cases.
+**Fee predictability.** EIP-4844 made fees materially lower and usually steadier, but they still vary. Payment applications that quote an all-in price need fee buffers, internal hedging, or product design that hides this variability from the user.
 
-**Withdrawal time.** Moving assets from an L2 back to L1 takes 7 days on optimistic rollups (the challenge period) and minutes to hours on ZK rollups (proof generation). Fast bridge services offer near-instant withdrawals by fronting liquidity, but they charge fees and introduce counterparty risk. For payments staying within the L2, this is irrelevant. For settlements requiring L1 finality, it matters.
+**Withdrawal time.** Moving assets from an L2 back to L1 still takes time. On optimistic rollups, canonical exits to L1 often take about seven days. On validity rollups, the delay is usually tied to proof generation and finalization. That distinction matters if a business depends on L1 settlement rather than just L2 spendability.
 
 ## Fragmentation and Interoperability
 
-The proliferation of L2s creates a fragmentation problem. USDC on Base is not directly spendable on Arbitrum. Users and applications must bridge assets between chains, which introduces cost, delay, and risk.
+The proliferation of L2s creates a fragmentation problem. USDC on Base is not automatically the same spendable object as USDC on Arbitrum from a user's perspective. Applications still have to decide where liquidity sits and how it moves.
 
 Several approaches are converging to address this:
 
-Circle's Cross-Chain Transfer Protocol (CCTP) enables native USDC burning on one chain and minting on another, avoiding the wrapped-token fragmentation that plagued earlier bridge designs. Transfers complete in minutes.
+Circle's Cross-Chain Transfer Protocol enables supported USDC to be burned on one chain and minted on another, reducing reliance on wrapped bridge assets.
 
-Shared sequencing and interoperability protocols aim to let L2s communicate atomically. Optimism's Superchain and cross-chain intent protocols (Across, UniswapX) are early implementations.
+Shared sequencing and interoperability efforts aim to reduce the user-visible cost of moving between rollups. Optimism's Superchain vision, bridge protocols such as Across, and a growing class of intent-based routing systems are all attempts to make the chain boundary less visible.
 
-Chain abstraction layers hide multi-chain complexity from users entirely. A user sends USDC to an address. The infrastructure routes it across chains as needed. The user never selects a network or approves a bridge.
+Chain abstraction layers try to hide multi-chain complexity from users entirely. Ideally, a user sends a dollar token and the infrastructure handles routing, bridging, and settlement in the background. In practice, that abstraction usually introduces new routers, solvers, or liquidity providers, so the complexity does not disappear; it moves.
 
-For payments, the destination is clear: users and merchants should not need to know which L2 they are on. The plumbing should be invisible.
+For payments, the destination is clear: users and merchants should not need to care which L2 they are on. But the industry is not fully there yet.

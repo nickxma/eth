@@ -1,49 +1,47 @@
 # Stablecoins on Ethereum
 
-Stablecoins are the most widely used application on Ethereum. Their combined market capitalization exceeded $200 billion by early 2026, with the majority issued natively on Ethereum or bridged to Ethereum L2s. They serve as the unit of account for onchain payments — the thing people actually want to send and receive.
+Stablecoins are the most widely used payments-related asset class in crypto. By early 2026, global stablecoin market capitalization was above $300 billion. Not all of that activity lives on Ethereum, but Ethereum and its rollups remain the center of gravity for regulated dollar tokens, DeFi liquidity, and institutional onchain settlement.
 
 ## What Stablecoins Are
 
-A stablecoin is a token whose value is pegged to a reference asset, usually the U.S. dollar. The mechanism for maintaining the peg varies by design, but the result is the same: a digital dollar that moves on blockchain rails.
+A stablecoin is a token designed to track a reference asset, usually the U.S. dollar. The mechanism varies by design, but the practical goal is the same: a digital dollar that moves on blockchain rails.
 
-For payments, this solves the obvious problem with using ETH or BTC as money. No merchant wants to accept a currency that moves 5% in an afternoon. Stablecoins separate the settlement network (Ethereum) from the unit of account (dollars), giving users blockchain's speed and programmability without its volatility.
+For payments, this matters because it separates the settlement network from the unit of account. Users get blockchain speed and programmability without taking the price volatility of ETH or BTC.
 
 ## Issuance Models
 
-**Fiat-backed (custodial).** USDC (Circle) and USDT (Tether) are backed by reserves held at regulated financial institutions — primarily U.S. Treasuries, bank deposits, and money market instruments. Each token is redeemable 1:1 for dollars through the issuer. USDT's circulating supply exceeds $140 billion; USDC exceeds $55 billion.
+**Fiat-backed (custodial).** USDC and USDT are backed by reserve assets such as short-dated Treasuries, cash, and cash equivalents. The trust assumption is explicit: users depend on the issuer and its banking partners to maintain reserves and honor redemptions. Direct redemption is usually available to approved customers or institutional counterparties, not frictionlessly to every wallet holder.
 
-The trust assumption is explicit: you trust the issuer to maintain reserves and honor redemptions. Circle publishes monthly reserve attestations. Tether has faced scrutiny over reserve transparency, though it has published quarterly reports since 2023.
+**Fiat-backed (institutional).** PYUSD represents a newer class of payment-oriented stablecoin distributed through a large incumbent payments brand. It is issued by Paxos for PayPal and backed by dollar deposits, Treasuries, and similar cash equivalents. Its strategic advantage is distribution, not decentralization.
 
-**Fiat-backed (institutional).** PYUSD (PayPal) represents a newer class of stablecoins issued by regulated financial institutions rather than crypto-native companies. PYUSD is backed by dollar deposits, U.S. Treasuries, and money market funds, with reserves held at regulated custodians. Its integration into PayPal's existing payment network gives it a distribution channel that crypto-native issuers lack.
+**Crypto-collateralized (decentralized).** DAI and USDS within the Sky ecosystem are backed by onchain collateral and governance-managed risk parameters rather than a single bank account. They are generally overcollateralized, but they are not trustless in an absolute sense: governance, collateral composition, oracle design, and emergency powers all matter. DAI also remains live; USDS did not simply replace it overnight.
 
-**Crypto-collateralized (decentralized).** DAI and its successor USDS (Sky, formerly MakerDAO) are minted by depositing crypto collateral — primarily ETH and USDC — into smart contract vaults. The system is overcollateralized: minting $100 of DAI requires $150+ of collateral. Liquidation mechanisms protect the peg if collateral values drop. No single entity can freeze or blacklist DAI, making it attractive for users who value censorship resistance.
+**Algorithmic.** Stablecoins that try to hold a peg mainly through incentives and reflexive market structure have a poor track record. Terra/UST's collapse in 2022 remains the clearest example of why undercollateralized algorithmic designs are a bad fit for payment infrastructure.
 
-**Algorithmic.** Some stablecoins attempted to maintain pegs through algorithms and incentive mechanisms without full collateral backing. Terra/UST's collapse in May 2022 — erasing $40 billion in value — demonstrated the fragility of this approach. Algorithmic stablecoins are largely discredited for payments use cases.
+## Why Ethereum Matters for Stablecoins
 
-## Why Ethereum Dominates Stablecoin Issuance
+Ethereum is not the only important stablecoin chain. Tron, for example, carries a very large share of USDT supply and retail transfer activity. But Ethereum still matters disproportionately for several reasons:
 
-Ethereum is the primary issuance chain for USDC, USDT, DAI, and PYUSD. Several factors explain this:
+Network effects are self-reinforcing. Liquidity attracts applications, applications attract users, and users attract more liquidity.
 
-Network effects are self-reinforcing. Liquidity attracts applications, applications attract users, users attract liquidity. Ethereum had the earliest stablecoin adoption and has maintained its position through this cycle.
+DeFi composability gives Ethereum-native stablecoins utility beyond simple transfers. They can be used in lending markets, DEXs, custody platforms, and payment workflows without leaving the broader ecosystem.
 
-DeFi composability gives Ethereum-native stablecoins utility beyond simple transfers. USDC can be deposited into lending protocols, used as collateral, traded on DEXs, or routed through payment channels — all without leaving the ecosystem.
+Institutional trust matters. Treasurers and compliance teams care about validator decentralization, operational history, client diversity, and the depth of surrounding infrastructure. Ethereum scores better than most alternatives on those dimensions.
 
-Institutional trust matters. Treasurers and compliance teams evaluate validator decentralization, track record, and audit history. Ethereum's 10-year operating history and broad validator set provide assurance that newer chains lack.
-
-L2 networks extend Ethereum's stablecoin ecosystem to low-cost environments. USDC on Base or Arbitrum costs fractions of a cent to transfer while inheriting Ethereum's security model. Circle's Cross-Chain Transfer Protocol (CCTP) enables native USDC minting on L2s, avoiding the liquidity fragmentation that plagues bridged assets.
+L2 networks extend Ethereum's stablecoin ecosystem into cheaper environments. Base, Arbitrum, and OP Mainnet support low-fee transfers, but the security model is still shaped by sequencer design, proof systems, and governance controls. Circle's Cross-Chain Transfer Protocol helps by burning and minting supported USDC across chains instead of relying on wrapped bridge assets.
 
 ## Regulatory Landscape
 
-The EU's Markets in Crypto-Assets (MiCA) regulation, effective mid-2024, classifies stablecoins as either "e-money tokens" (pegged to a single currency) or "asset-referenced tokens" (pegged to a basket). Issuers must hold reserves in EU-regulated banks, obtain authorization, and meet capital requirements. Circle obtained an e-money license in France. Tether has faced compliance challenges under MiCA's requirements.
+The EU's Markets in Crypto-Assets regulation classifies fiat-pegged stablecoins as e-money tokens or asset-referenced tokens depending on structure and reference asset. It imposes authorization, reserve, disclosure, and redemption requirements. Circle obtained an electronic money institution license in France and issues MiCA-compliant USDC and EURC in the EEA. Not every global stablecoin issuer has taken the same path.
 
-In the U.S., Congress has debated multiple stablecoin bills. Key provisions across proposals include requiring 1:1 reserve backing, restricting issuance to regulated entities, and establishing federal or state oversight. As of early 2026, comprehensive legislation has not passed, though state-level frameworks (notably New York's BitLicense) govern some issuers.
+In the United States, the GENIUS Act was enacted on July 18, 2025. It establishes a federal framework for payment stablecoins, including reserve, disclosure, supervision, and issuer eligibility requirements. As of March 2026, the operational details are still being implemented by regulators and market participants.
 
-Regulatory clarity is broadly expected to accelerate adoption. Most major issuers have adopted compliance-forward positions — KYC for large redemptions, sanctions screening, and the ability to freeze addresses by court order. Whether that last capability is a feature or a vulnerability depends on the use case.
+Regulatory clarity should help adoption, but it does not erase the core tradeoff. Most large payment stablecoins remain centrally issued, censorable, and legally tied to regulated intermediaries.
 
 ## Stablecoins as Payment Infrastructure
 
-Daily stablecoin transfer volume routinely exceeds $30 billion. Much of this is settlement between exchanges and market makers, but the share attributable to real-world payments — payroll, invoicing, remittances, B2B settlement — is growing.
+Stablecoin transfer volume is enormous, but raw transfer volume should not be treated as the same thing as economic payment volume. Exchange flows, market-making, and automated activity inflate the headline numbers. Even after adjusting for that, the real-payment share is clearly growing across treasury, B2B settlement, remittances, payroll, and commerce.
 
-The unit economics are compelling. Sending $10,000 in USDC on Base costs less than $0.01 and settles in under two seconds. The same transfer via international wire costs $25-50 and takes 1-3 business days. For a business making hundreds of cross-border payments monthly, the difference is material.
+The unit economics can still be compelling. Sending a large USDC transfer on a major L2 often costs a fraction of a cent to a few cents in network fees and appears to the recipient almost immediately. The same transfer over cross-border bank rails can involve fixed fees, FX spreads, cutoffs, and multi-day settlement windows. The real cost comparison, however, has to include off-ramp fees, compliance overhead, and treasury operations, not just gas.
 
-Stablecoins are the payment layer. Ethereum is the settlement layer. The combination gives payments a programmable, always-on, globally accessible foundation that traditional rails were not designed to provide.
+Stablecoins are the payment asset. Ethereum is one of the main settlement environments. Together they provide a programmable, always-on, globally accessible foundation that legacy rails were not designed to offer.

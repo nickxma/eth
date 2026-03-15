@@ -1,69 +1,63 @@
 # Payroll
 
-Payroll is distinct from ad hoc contractor payouts. It involves recurring, predictable payments governed by employment law — tax withholding, benefits deductions, social security contributions, and statutory reporting. These requirements make payroll one of the more complex stablecoin use cases to implement correctly, but also one of the most structurally interesting.
+Payroll is distinct from ad hoc contractor payouts. It involves recurring, predictable payments governed by employment law: tax withholding, benefits deductions, social-security contributions, wage rules, and statutory reporting. Those requirements make payroll one of the more complex stablecoin use cases to implement correctly.
 
 ## Why Payroll Is Harder Than Payouts
 
-A company paying a contractor in USDC needs to send the right amount to the right wallet on the right day. That's it. The contractor handles their own taxes.
-
-Payroll involves a cascade of obligations:
+A company paying a contractor in USDC mainly needs to send the right amount to the right wallet on the right day. Payroll is more involved:
 
 - Calculate gross pay.
-- Withhold federal, state, and local income tax (jurisdictions vary).
-- Deduct employee contributions to benefits, retirement plans, and social security.
-- Remit employer-side payroll taxes to the relevant government agencies.
-- Deposit net pay into the employee's account.
-- File quarterly and annual tax reports.
+- Withhold the appropriate taxes.
+- Deduct employee benefits and other required contributions.
+- Remit employer-side obligations.
+- Deliver net pay.
+- File the relevant reports.
 
-Most of this happens in fiat and must continue to happen in fiat. Tax authorities accept dollars, euros, and yen — not USDC. The stablecoin component applies to the last step: depositing net pay into the employee's wallet instead of their bank account.
+Most of this still happens in fiat. Tax authorities, benefits providers, and payroll intermediaries generally expect bank money, not stablecoins. In practice, the stablecoin component usually applies only to the final step: delivering net pay to the worker.
 
 ## How It Works in Practice
 
-The typical implementation treats stablecoin payroll as a payout method, not a replacement for payroll processing:
+The conservative implementation treats stablecoins as a payout method, not as a replacement for payroll processing:
 
-1. The payroll provider calculates gross-to-net as usual — withholding taxes, deducting benefits, computing net pay.
-2. Tax remittances and statutory payments are made in fiat through traditional banking rails.
-3. The employee's net pay is converted from fiat to stablecoins and deposited in their designated wallet.
+1. The payroll system calculates gross-to-net as usual.
+2. Taxes and statutory payments are made in fiat through the normal banking system.
+3. The employee's net pay is converted into stablecoins and sent to a designated wallet.
 
-The employee experiences this as receiving their salary in USDC or USDT instead of via direct deposit. The employer's payroll tax obligations are unchanged.
-
-Some implementations allow partial stablecoin allocation — an employee might direct 30% of net pay to a crypto wallet and 70% to their bank account. This mirrors how employers handle split direct deposits today.
+Some employers also support split allocation, where only part of net pay is delivered in stablecoins and the rest goes to a bank account.
 
 ## Employer Adoption
 
-Crypto-native companies — exchanges, DeFi protocols, blockchain infrastructure firms — were early adopters. Many already hold treasury in stablecoins, and their employees are comfortable with crypto wallets. Coinbase, Consensys, and similar firms have offered crypto payroll options for years.
+Crypto-native companies were early adopters because their employees were already comfortable with wallets and digital assets. For them, stablecoin payroll is a cultural fit as much as a payment choice.
 
-Mainstream adoption is slower but growing. Deel, Papaya Global, and Gusto have introduced stablecoin payout options within their payroll platforms. The integration is designed to be invisible to the payroll administrator — they process payroll normally; the system handles the fiat-to-stablecoin conversion and delivery.
+Mainstream adoption is slower but growing. Deel, Rise, and newer crypto-native payroll providers have made stablecoin delivery easier to offer as an employee or contractor payout option. The design goal is to keep the payroll administrator's workflow familiar while changing only the final disbursement rail.
 
-The employer's main incentive is talent acquisition. Offering stablecoin payroll signals alignment with Web3 values and attracts candidates who prefer to accumulate digital assets without the friction of post-paycheck conversion. For companies competing for blockchain engineers and crypto-native talent, this is a meaningful differentiator.
+The employer's main incentive is usually not lower network fees. It is a combination of faster cross-border delivery, optional dollar exposure for workers in weaker-currency markets, and appeal to crypto-native talent.
 
 ## Regulatory Status
 
-Stablecoin payroll legality varies by jurisdiction:
+Stablecoin payroll legality varies sharply by jurisdiction.
 
-**United States.** Federal law (the Fair Labor Standards Act) requires minimum wage and overtime to be paid in "cash or negotiable instruments." Most legal interpretations treat stablecoins as neither. However, employees can generally direct a portion of net pay to a crypto wallet as a voluntary election, similar to directing a portion of pay to a brokerage account. Several states have introduced or passed legislation explicitly permitting crypto wage payments.
+In the United States, the IRS treats digital assets paid as wages as wages for federal tax purposes, which means withholding and W-2 reporting still apply. Labor-law questions are harder: paying employees directly in stablecoins can be more legally constrained than paying contractors, especially if the arrangement threatens minimum-wage compliance, reversibility, or required disclosures.
 
-**European Union.** The Payment of Wages Directive in many EU member states requires salary to be paid into a bank account. Stablecoin payroll typically requires the employee to opt in and may need to satisfy local payment regulations. MiCA's stablecoin framework provides some clarity but doesn't directly address wage payments.
+In the EU and many other jurisdictions, wage-payment rules are governed by local employment law, wage-protection rules, and financial regulation rather than by crypto law alone. MiCA helps on the stablecoin side; it does not automatically authorize employers to substitute tokens for wages.
 
-**Latin America.** El Salvador made Bitcoin legal tender, which extends to stablecoin payments in practice. Most other Latin American countries have no specific prohibition but also no explicit authorization, creating a gray zone.
-
-**General trend.** Regulation is moving toward accommodation. As stablecoins become regulated financial instruments (under MiCA, pending US legislation, and similar frameworks), the legal argument for treating them as valid payment instruments strengthens.
+The conservative implementation pattern is therefore straightforward: run payroll in fiat, satisfy all statutory obligations in fiat, and offer stablecoins only as an opt-in net-pay delivery method where local law permits it.
 
 ## Tax Treatment
 
-For the employee, receiving salary in stablecoins typically creates two tax events in most jurisdictions:
+For the employee, receiving salary in stablecoins can create two tax layers in jurisdictions that treat stablecoins as property:
 
-1. **Income tax** on the fair market value of the stablecoins at the time of receipt (identical to cash wages if the stablecoin is pegged at $1.00).
-2. **Capital gains/losses** if the stablecoins are later sold at a different price (rare for well-maintained pegs, but technically applicable).
+1. **Wage income** at fair market value on receipt.
+2. **Capital gains or losses** if the stablecoins are later sold or exchanged at a different price. For fiat-backed stablecoins the economic amount may be small, but the reporting consequence can still exist.
 
-Employers must report stablecoin wages at their fair market value on standard tax forms (W-2 in the US). This is the same treatment as any non-cash compensation.
+Employers still need to report wages, withhold taxes, and keep payroll records as they would for any other compensation method.
 
 ## Implementation Considerations
 
-**Wallet management.** Employees need a wallet that can receive stablecoins on the relevant network. Custodial wallets (provided by Coinbase, Circle, or the payroll platform itself) reduce the risk of lost keys. Self-custody wallets provide more control but shift key management responsibility to the employee.
+**Wallet management.** Employees need a wallet that can receive the chosen stablecoin on the chosen network. Custodial wallets reduce operational risk. Self-custody increases user control but also increases support burden and recovery risk.
 
-**Network selection.** Payroll is a recurring, predictable transaction — gas cost matters at scale. L2 networks with sub-cent fees (Base, Arbitrum, Optimism) are preferable to Ethereum mainnet, where a single transfer might cost $1-5 during peak congestion.
+**Network selection.** Payroll is recurring and predictable, so cost matters at scale. Major L2s are usually better suited than Ethereum mainnet.
 
-**Accounting.** Stablecoin payroll expenses should be recorded at the USD value at the time of payment. Most accounting standards treat stablecoins as intangible assets or digital assets, not cash equivalents, which creates some reporting complexity. FASB's updated fair value accounting rules (effective 2025) simplify this for US companies.
+**Accounting.** Stablecoin payroll expenses should be recorded using the value at the time of payment. The accounting treatment of the stablecoins themselves depends on the facts, the token, custody structure, and the applicable accounting framework. It should not be assumed that every stablecoin is a cash equivalent.
 
-The mechanics are solved. The remaining friction is regulatory clarity and employer willingness to adopt a new payment rail for a process where conservatism is the default.
+The mechanics are mostly solved. The remaining friction is legal, accounting, and operational: payroll is one of the most conservative functions in any company, and for good reason.

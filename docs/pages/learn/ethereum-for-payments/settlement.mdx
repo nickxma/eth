@@ -1,48 +1,48 @@
 # Settlement & Finality
 
-Settlement is the moment a payment becomes irreversible. The sender can't claw it back. The receiver can treat the funds as theirs. Everything before that moment is a promise.
+Settlement is the moment a payment becomes economically final. The sender cannot claw it back unilaterally. The receiver can treat the funds as theirs. Everything before that moment is a promise, an authorization, or an internal ledger update.
 
-In traditional finance, settlement and payment confirmation are different events separated by hours or days. On Ethereum, they converge.
+In traditional finance, payment confirmation and settlement are often separate events. On Ethereum, they are much closer together, but not always identical.
 
 ## How Traditional Settlement Works
 
-**ACH (Automated Clearing House)** processes payments in batches. A bank submits a file of transactions to the Federal Reserve or EPN, which nets the obligations and settles them against reserve accounts. Standard ACH settles next business day. Same-day ACH settles within hours but with dollar limits and cutoff times. Weekends and holidays pause the system entirely.
+**ACH (Automated Clearing House)** processes payments in batches. A bank submits a file of transactions to the Federal Reserve or EPN, which nets obligations and settles them against reserve accounts. Standard ACH is not real time. Same Day ACH improves speed, but it still depends on business-day windows, cutoffs, and network rules.
 
-**Wire transfers (Fedwire)** settle in real time during business hours. They are irrevocable once processed. But Fedwire operates roughly 21.5 hours per business day and is closed on weekends and federal holidays. International wires route through correspondent banks, adding 1-5 business days and fees at each hop.
+**Wire transfers (Fedwire)** settle in real time during operating hours and are generally irrevocable once processed. But Fedwire is not a 24/7 retail rail: it currently operates 22 hours per business day, Monday through Friday, excluding holidays. International wires often route through correspondent banks, adding cost, delay, and operational uncertainty.
 
-**SWIFT** is a messaging network, not a settlement system. It transmits payment instructions between banks. Actual settlement happens through correspondent banking relationships — a chain of intermediary accounts. A cross-border SWIFT payment typically involves 2-5 banks and takes 1-5 days. Each intermediary deducts fees and introduces delay.
+**SWIFT** is a messaging network, not a settlement system. It transmits payment instructions between banks. Actual settlement happens through correspondent banking relationships, often across multiple intermediary accounts. That makes cross-border payments slower, more expensive, and harder to trace end to end.
 
-**Card networks** authorize transactions in seconds but settle much later. When you tap your card, the merchant receives an authorization — a promise from the issuing bank. Actual settlement between the acquiring bank and issuing bank happens in 1-3 business days through the card network's clearing process. The merchant receives funds minus interchange fees, typically 1.5-3%.
+**Card networks** authorize transactions in seconds but settle much later. When you tap a card, the merchant receives an authorization, not final settlement. Clearing and settlement between the issuer, acquirer, and network happen later, and chargeback rights can remain open for weeks or months.
 
 ## How Ethereum Settlement Works
 
 A transaction on Ethereum L1 is included in a block approximately every 12 seconds. Once included, it is visible to the entire network. But inclusion is not finality.
 
-Ethereum uses proof-of-stake consensus with a finality mechanism called Casper FFG. Validators vote on blocks in two rounds: attestation and justification. After two epochs (approximately 13 minutes), a block reaches economic finality. Reverting a finalized block would require destroying at least one-third of all staked ETH — over $10 billion at current values. This is a concrete economic cost an attacker must bear.
+Ethereum uses proof-of-stake consensus with a finality mechanism called Casper FFG. Under normal conditions, checkpoints finalize after two epochs, or about 13 minutes. Reverting a finalized checkpoint would require a catastrophic consensus failure and at least one-third of staked ETH to be slashed. That is a much stronger notion of settlement finality than a simple database entry or a card authorization.
 
-For most payment use cases, probabilistic confirmation after 1-2 blocks (12-24 seconds) provides sufficient assurance. The recipient can observe the transaction onchain and assess the reversion risk, which decreases exponentially with each subsequent block.
+For many payment use cases, inclusion plus a few confirmations is already strong enough. For higher-value flows, treasury operations, or regulated settlement, teams may prefer to wait for L1 finality rather than just L1 inclusion.
 
 ## L2 Settlement: Speed and Tradeoffs
 
-Layer 2 networks offer faster confirmation but with a different finality model.
+Layer 2 networks offer faster user-visible confirmation but with a different finality model.
 
-**Optimistic rollups** (Arbitrum, Optimism, Base) confirm transactions in under a second via a centralized sequencer. The sequencer orders transactions and provides a "soft confirmation." These confirmations are reliable for most payment scenarios — the sequencer has no economic incentive to reorder or exclude valid transactions. However, the transaction does not inherit Ethereum's full security until the rollup posts its data to L1 and the challenge period expires (currently 7 days for fraud proofs).
+**Optimistic rollups** such as Arbitrum, OP Mainnet, and Base usually give users a fast local confirmation from a sequencer, often in about one to two seconds. That is useful for commerce, but it is not the same thing as Ethereum finality. The sequencer can usually reorder transactions, extract MEV, or censor temporarily. The rollup only reaches its Ethereum-backed safety model after data is posted to L1 and the relevant proof and challenge system has run its course. For withdrawals to L1, that often still means roughly a seven-day delay.
 
-**ZK rollups** (zkSync, Scroll, Linea) also confirm quickly via a sequencer, but their finality path is different. Instead of a challenge window, ZK rollups generate a cryptographic proof that the state transition is valid. Once this proof is verified on L1, the transactions are final with Ethereum's full security. Proof generation currently takes minutes to hours, but the trend is toward real-time proving.
+**ZK rollups** also use sequencers for fast local confirmations, but they secure state transitions differently. Instead of a challenge window, they submit a validity proof to Ethereum. Once the proof is accepted on L1 and the corresponding L1 block finalizes, the state transition inherits Ethereum's security model. Proof generation times vary by system and by load, so the gap between local confirmation and L1-backed finality is usually minutes to hours rather than days.
 
-For a payment at a coffee shop, the sequencer's soft confirmation (sub-second) is sufficient. For a $10 million treasury transfer, an institution might wait for L1 finality.
+For a coffee purchase, a rollup sequencer confirmation may be sufficient. For a treasury transfer, many institutions will want a stronger assurance threshold. Payment teams need to be explicit about which guarantee they are relying on.
 
 ## What This Means for Payments
 
 | Property | ACH | SWIFT | Card Networks | Ethereum L1 | Ethereum L2 |
 |---|---|---|---|---|---|
-| Confirmation | Same day - next day | 1-5 days | Seconds (auth only) | 12 seconds | Sub-second |
-| Final settlement | 1-2 business days | 1-5 business days | 1-3 business days | ~13 minutes | Minutes to hours (proof dependent) |
-| Availability | Business days | Business days | 24/7 (auth); business days (settlement) | 24/7/365 | 24/7/365 |
-| Reversibility | Possible (60 days for consumer) | Difficult but possible | Chargebacks (120 days) | Irreversible at finality | Irreversible at L1 finality |
+| Confirmation | Same day to next day | 1-5 days | Seconds (authorization only) | ~12 seconds | ~1-2 seconds local confirmation |
+| Strong finality | 1-2 business days | 1-5 business days | 1-3 business days, with chargeback risk | ~13 minutes | Depends on design: ZK proofs usually minutes to hours; optimistic exits to L1 are often ~7 days |
+| Availability | Business days | Business days | 24/7 auth; business-day settlement | 24/7/365 | 24/7/365 |
+| Native reversibility | Returns and reversals exist | Difficult but possible | Chargebacks and disputes | None at protocol level | None at protocol level |
 
-The 24/7 availability is underappreciated. Traditional payment systems shut down on weekends and holidays. A Friday evening payment doesn't settle until Monday — or Tuesday if Monday is a holiday. Ethereum processes blocks every 12 seconds regardless of calendar.
+The 24/7 availability is underappreciated. Traditional payment systems shut down on weekends and holidays. Ethereum processes blocks continuously regardless of the calendar.
 
-Irreversibility cuts both ways. Chargebacks protect consumers in card transactions. Onchain payments have no built-in reversal mechanism. Payment applications that need consumer protections must implement them at the application layer — through escrow contracts, dispute resolution protocols, or custodial intermediaries.
+Irreversibility cuts both ways. Chargebacks protect consumers on card rails. Onchain payments have no built-in reversal mechanism. Payment applications that need consumer protections must implement them above the protocol layer through escrow, dispute resolution, refunds, or custodial controls.
 
-Settlement speed, availability, and finality make Ethereum competitive with the fastest traditional rails and superior to most. The remaining gap is cost and throughput, addressed by Layer 2 networks.
+Settlement speed, availability, and auditability make Ethereum genuinely different from legacy rails. But payment teams still have to choose what level of assurance they rely on: L1 inclusion, L1 finality, or a rollup sequencer confirmation. Those are not interchangeable.

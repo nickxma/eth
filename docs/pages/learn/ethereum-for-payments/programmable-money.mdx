@@ -1,55 +1,55 @@
 # Programmable Money
 
-A dollar in a bank account can be sent or received. A dollar in a smart contract can be programmed — conditioned on time, events, multi-party approval, or arbitrary logic. This is not a marginal improvement. It changes what money can do.
+A dollar in a bank account can be sent or received. A dollar in a smart contract can be conditioned on time, events, approvals, or arbitrary logic. That changes what payments can do.
 
-Traditional payment systems treat money as a static balance that moves between accounts through instructions. Onchain, money and logic coexist in the same execution environment. The payment itself can enforce its own terms.
+Traditional payment systems treat money as a balance that moves between accounts through external instructions. Onchain, value transfer and execution happen in the same environment. The payment itself can enforce its own terms.
 
 ## Conditional Payments
 
-A simple example: an escrow contract holds payment until both parties confirm delivery. The buyer deposits funds. The seller ships the goods. When the buyer confirms receipt — or when an oracle confirms delivery tracking data — the contract releases payment to the seller. If neither condition is met within 30 days, the buyer gets a refund.
+A simple example is escrow. A contract holds payment until both parties confirm delivery, or until some pre-agreed condition is satisfied. If the condition is not met by a deadline, the funds return automatically.
 
-Traditional escrow services do this but are slow, expensive, and require trusting the escrow agent. A smart contract escrow is transparent (both parties read the code), automatic (no human in the loop), and cheap (deployed once, reused indefinitely).
+Traditional escrow services can do this too, but they are slower, more manual, and more dependent on a trusted intermediary. A smart contract can make the rules transparent and automate enforcement.
 
-Conditional logic extends to any trigger verifiable onchain or through an oracle: milestone completion, passage of time, a price threshold, a third-party attestation, or a DAO vote.
+Conditional logic extends to any trigger verifiable onchain or through an oracle: milestone completion, passage of time, a price threshold, a third-party attestation, or a governance action.
 
 ## Streaming Payments
 
-Sablier and other streaming protocols enable continuous, per-second payment flows. An employer deposits a month's salary into a streaming contract. The employee accrues earnings every second and can withdraw their accumulated balance at any time. If the employment ends, the employer cancels the stream and recovers unstreamed funds.
+Sablier and other streaming protocols enable continuous, per-second payment flows. An employer or customer deposits funds into a stream, and the recipient accrues earnings over time instead of waiting for a single lump-sum payout.
 
-This model is more honest about how compensation works. Employees earn money continuously, not in arbitrary biweekly or monthly chunks. It also improves cash flow management — the employer's funds are committed but not fully disbursed, and the employee has real-time access to earned wages.
+This can improve cash flow, make pricing more granular, and align payment with service delivery. It is already used in DAO compensation, vesting schedules, and some software-service experiments.
 
-Streaming payments are already used for DAO contributor compensation, service agreements, and vesting schedules. The infrastructure is proven. Extending it to conventional payroll requires the wallet and banking integrations that account abstraction and fiat on/off-ramps provide.
+Streaming should not be romanticized, though. It changes payment cadence, not labor law, accounting, or tax obligations. Those still live outside the chain.
 
 ## Programmable Compliance
 
-Payment rules can be embedded in the token or the wallet, not just in the application layer.
+Payment rules can be embedded in the token, the wallet, or the application layer.
 
-A regulated stablecoin can enforce transfer restrictions at the contract level: only wallets that have completed KYC verification (attested onchain through a credential) can hold the token. Sanctioned addresses can be blocked by the contract itself, not by a centralized compliance team reviewing transactions after the fact.
+Some regulated stablecoins or permissioned payment tokens can enforce transfer restrictions at the contract level: only approved addresses can hold the token, or only approved counterparties can receive it. That is a real design pattern, but it is not how major open stablecoins such as USDC are generally used today.
 
-A corporate treasury wallet can require multi-signature approval for transfers above a threshold, restrict payments to a pre-approved vendor list, and log every transaction to an onchain audit trail — all enforced by code, not by policy documents and manual reviews.
+A treasury wallet can require multiple approvals above a threshold, restrict payments to an allowlist, and produce an auditable execution trail. Those controls can be enforced by code rather than just by internal process.
 
-This is a structural upgrade. Compliance in traditional finance is detective — violations are identified after they occur, through audits and monitoring. Onchain compliance can be preventive — invalid transactions revert before they execute.
+This is a meaningful difference, but it should not be overstated. Traditional finance also uses preventive controls, approvals, and sanctions screening. What onchain systems add is the ability to make some rules cryptographically enforceable at execution time.
 
 ## Composability with DeFi
 
-Onchain money doesn't just move. It can work.
+Onchain money does not just move. It can be routed, invested, converted, or escrowed as part of the same workflow.
 
-A business receives a $100,000 USDC payment. A smart contract automatically deposits $80,000 into a lending protocol, allocates $15,000 to an operating expense wallet, and routes $5,000 to a tax reserve. One transaction, triggered by the incoming payment.
+A business could receive a stablecoin payment and automatically split it between an operating wallet, a reserve wallet, and a yield-bearing onchain product. That kind of treasury automation already exists in crypto-native firms.
 
-Treasury management for onchain-native businesses already works this way. Idle stablecoin balances earn 3-5% APY through lending protocols like Aave and Compound — the onchain equivalent of a money market fund, backed by overcollateralized lending.
+Stablecoin balances can be deployed into lending markets such as Aave and Compound or into tokenized cash products, but the yield is variable and comes with protocol, market, and counterparty risk. It is not interchangeable with an insured bank deposit.
 
-Payment channels can integrate with decentralized exchanges to handle currency conversion. A sender pays in USDC. The recipient wants EURC (euro-denominated stablecoin). A DEX swap executes atomically within the payment transaction. No FX broker. No spread markup beyond the DEX fee (typically 0.01-0.05% for stablecoin pairs).
+Payment flows can also integrate with decentralized exchanges to handle currency conversion. A sender pays in USDC, the recipient wants EURC, and the swap is executed as part of the same workflow. In deep stablecoin pools the trading spread can be low, but it is never just the pool fee: slippage, routing, and gas still matter.
 
 ## Subscriptions and Recurring Payments
 
-Traditional recurring payments require the payer to grant a merchant ongoing access to their payment method. The merchant initiates charges. The payer's recourse is to dispute charges after the fact or cancel through their bank.
+Traditional recurring payments usually rely on a merchant-controlled pull model. The merchant stores authorization and initiates charges. The user's recourse is to cancel later or dispute the charge after the fact.
 
-Onchain subscriptions invert this. A smart contract holds the subscriber's authorization: the merchant can pull up to $X per month. The subscriber revokes at any time with a single transaction. The contract enforces the cap — the merchant cannot overcharge.
+Onchain subscriptions can invert this. A smart account or payment contract can hold the subscriber's authorization, enforce a cap, and let the user revoke permission directly. The merchant cannot exceed the rules encoded in that authorization.
 
-Session keys (from account abstraction) make this practical. A subscription service receives a session key permitting a fixed monthly USDC transfer. The key cannot be used for anything else. It expires automatically.
+Session keys and spend permissions make this practical. The exact implementation varies by wallet stack, but the goal is consistent: give a merchant narrow payment rights without handing over full wallet control.
 
 ## What This Adds Up To
 
-Programmable money is not one feature. It is a design space. Every business process involving payments — invoicing, payroll, treasury management, lending, insurance payouts, subscription billing — can be expressed as a smart contract that executes automatically and without intermediaries.
+Programmable money is not one feature. It is a design space. Escrow, streaming, conditional release, capped subscriptions, policy-controlled treasury, and atomic FX conversion all become easier when value and logic share the same settlement environment.
 
-The building blocks are live: stablecoins for value, L2s for cost and speed, account abstraction for UX, composable DeFi for yield and conversion. What remains is integration with the systems where businesses and consumers already operate.
+The building blocks are already here: stablecoins for value, rollups for lower cost, account abstraction for better UX, and onchain liquidity for routing and conversion. The remaining work is less about technical possibility and more about product, regulation, and integration.
